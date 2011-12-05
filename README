@@ -1,0 +1,15 @@
+PORTAL-GBA project by Dillan Mann
+05/12/2011
+
+BUGS:
+	When moving through portal, if you shoot a portal the loop sometimes runs twice causing a very extended
+	period of not moving.
+
+	Player cannot move whilst the portal is being shot.
+
+	Both portal disappear momentarily whilst one is being fired.
+
+CONTROLS:
+	WASD - Moves player
+	Q - Fire portal to the left
+	E - Fire portal to the right
