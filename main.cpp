@@ -17,7 +17,7 @@ void DisplayPortals(int bluey, int orangey);
 void DisplayPlayer(int&xp, int&yp);
 void PortalCollision(int&xp, int&yp,int bluey,int orangey);
 void PortalMovement(int&orangey, int&bluey);
-void ShootPortal(int xp, int yp, int&bluey, int&orangey);
+void ShootPortal(int&xp, int&yp, int&bluey, int&orangey);
 //===============
 	//REG_DISPCNT (defined in gba.h) is the main display register that controls
 	//the mode of operation which backgrounds are enabled and which buffer is
@@ -50,7 +50,6 @@ void ShootPortal(int xp, int yp, int&bluey, int&orangey);
 		DisplayPortals(bluetopy,orangetopy);
 		DisplayPlayer(x,y);
 		PortalCollision(x,y,bluetopy,orangetopy);
-		//PortalMovement(orangetopy,bluetopy);
 		ShootPortal(x,y,bluetopy,orangetopy);
 		WaitVSync();
 	}
@@ -115,25 +114,25 @@ void PortalCollision(int&xp, int&yp,int bluey,int orangey){ // Computes whether 
 	}
 }
 
-void ShootPortal(int xp, int yp, int&bluey, int&orangey){
-	int xport=xp,yport=yp;
+void ShootPortal(int&xp, int&yp, int&bluey, int&orangey){
+	int xport=xp,yport=yp,xplayer=xp;	//xport used for portal position, xplayer used for player position
 	if ((REG_P1 & KEY_R) ==0){
 		xport=xp+1;
-		for(int i=0;i<=(SCREEN_WIDTH-xp);i++){
-				PlotPixel8(xp,yp,10);
+		for(int i=0;i<=(SCREEN_WIDTH-xplayer);i++){
 				PlotPixel8(xport,yport,((rand()%4)+6));
+				DisplayPlayer(xp,yp);
 				xport++;
-				if(i>((SCREEN_WIDTH-xp)*(0.25))){
+				if(i>((SCREEN_WIDTH-xplayer)*(0.25))){
 					PlotPixel8(xport+1,yport+1,((rand()%4)+6));
 					PlotPixel8(xport+1,yport-1,((rand()%4)+6));
 				}
-				if(i>((SCREEN_WIDTH-xp)*(0.5))){
+				if(i>((SCREEN_WIDTH-xplayer)*(0.5))){
 					PlotPixel8(xport+1,yport+1,((rand()%4)+6));
 					PlotPixel8(xport+1,yport-1,((rand()%4)+6));
 					PlotPixel8(xport+2,yport+2,((rand()%4)+6));
 					PlotPixel8(xport+2,yport-2,((rand()%4)+6));
 				}
-				if(i>((SCREEN_WIDTH-xp)*(0.75))){
+				if(i>((SCREEN_WIDTH-xplayer)*(0.75))){
 					PlotPixel8(xport+1,yport+1,((rand()%4)+6));
 					PlotPixel8(xport+1,yport-1,((rand()%4)+6));
 					PlotPixel8(xport+2,yport+2,((rand()%4)+6));
@@ -149,22 +148,22 @@ void ShootPortal(int xp, int yp, int&bluey, int&orangey){
 	}
 	
 	else if((REG_P1 & KEY_L) ==0){
-		xport=xp-1;
-		for(int i=0;i<(xp);i++){
-			PlotPixel8(xp,yp,10);
+		xport=xplayer-1;
+		for(int i=0;i<(xplayer);i++){
 			PlotPixel8(xport,yport,((rand()%2+3)));
+			DisplayPlayer(xp,yp);
 			xport--;
-				if(i>((xp)*(0.25))){
+				if(i>((xplayer)*(0.25))){
 					PlotPixel8(xport-1,yport+1,((rand()%2)+3));
 					PlotPixel8(xport-1,yport-1,((rand()%2)+3));
 				}
-				if(i>((xp)*(0.5))){
+				if(i>((xplayer)*(0.5))){
 					PlotPixel8(xport-1,yport+1,((rand()%2)+3));
 					PlotPixel8(xport-1,yport-1,((rand()%2)+3));
 					PlotPixel8(xport-2,yport+2,((rand()%2)+3));
 					PlotPixel8(xport-2,yport-2,((rand()%2)+3));
 				}
-				if(i>((xp)*(0.75))){
+				if(i>((xplayer)*(0.75))){
 					PlotPixel8(xport-1,yport+1,((rand()%2)+3));
 					PlotPixel8(xport-1,yport-1,((rand()%2)+3));
 					PlotPixel8(xport-2,yport+2,((rand()%2)+3));
@@ -181,7 +180,7 @@ void ShootPortal(int xp, int yp, int&bluey, int&orangey){
 
 }
 
-void PortalMovement(int&orangey, int&bluey){
+void PortalMovement(int&orangey, int&bluey){ //useless function now, predecesor to the 'shoot portal' function.
 	if ((REG_P1 & KEY_R) == 0){
 		orangey = rand()%150+10;
 		}
