@@ -8,26 +8,26 @@
 //================
 //   Function: main()
 //      Notes: Main entry point into rom
+//		Other function notes are commented at the point of declaration
+//		i.e. below the int main function.
 //================
 int main()
 {
-//===============
-//	Prototypes:
-void DisplayPortals(int bluey, int orangey);
-void DisplayPlayer(int&xp, int&yp);
-void PortalCollision(int&xp, int&yp,int bluey,int orangey);
-void PortalMovement(int&orangey, int&bluey);
-void ShootPortal(int&xp, int&yp, int&bluey, int&orangey);
-//===============
-	//REG_DISPCNT (defined in gba.h) is the main display register that controls
-	//the mode of operation which backgrounds are enabled and which buffer is
-	//currently being drawn by the GPU.
-	//this sets the screen mode to mode three and enables background 2
-	//background 2 is required for all bitmap modes(3-5)
+	//===============
+	//	Prototypes:
+	void DisplayPortals(int bluey, int orangey);
+	void DisplayPlayer(int&xp, int&yp);
+	void PortalCollision(int&xp, int&yp,int bluey,int orangey);
+	void PortalMovement(int&orangey, int&bluey);
+	void ShootPortal(int&xp, int&yp, int&bluey, int&orangey);
+	//===============
+	
+	// Set GBA draw mode
 	REG_DISPCNT = MODE4 | BG2_ENABLE;
 
 	// set colours
-	SetPaletteBG(1,RGB(16,16,16)); // grey background
+	SetPaletteBG(0,RGB(16,16,16)); // grey background
+	SetPaletteBG(1,RGB(16,16,16)); // grey background for clearscreen
 	SetPaletteBG(2,RGB(0,14,31)); // blue portal
 	SetPaletteBG(3,RGB(0,16,31)); // blue shading
 	SetPaletteBG(4,RGB(0,18,31)); // blue shading
@@ -37,8 +37,6 @@ void ShootPortal(int&xp, int&yp, int&bluey, int&orangey);
 	SetPaletteBG(8,RGB(30,20,0)); // orange shading
 	SetPaletteBG(9,RGB(30,22,0)); // orange shading
 	SetPaletteBG(10,RGB(31,31,31)); // white player
-	ClearScreen8(1);
-		
 	
 	// initialise variables
 	int x=120,y=70,bluetopy=5,orangetopy=110;
@@ -114,13 +112,14 @@ void PortalCollision(int&xp, int&yp,int bluey,int orangey){ // Computes whether 
 	}
 }
 
-void ShootPortal(int&xp, int&yp, int&bluey, int&orangey){
+void ShootPortal(int&xp, int&yp, int&bluey, int&orangey){ // Shoots a portal to either left or right wall from player position
 	int xport=xp,yport=yp,xplayer=xp;	//xport used for portal position, xplayer used for player position
 	if ((REG_P1 & KEY_R) ==0){
 		xport=xp+1;
 		for(int i=0;i<=(SCREEN_WIDTH-xplayer);i++){
 				PlotPixel8(xport,yport,((rand()%4)+6));
 				DisplayPlayer(xp,yp);
+				DisplayPortals(bluey,orangey);
 				xport++;
 				if(i>((SCREEN_WIDTH-xplayer)*(0.25))){
 					PlotPixel8(xport+1,yport+1,((rand()%4)+6));
@@ -151,6 +150,7 @@ void ShootPortal(int&xp, int&yp, int&bluey, int&orangey){
 		xport=xplayer-1;
 		for(int i=0;i<(xplayer);i++){
 			PlotPixel8(xport,yport,((rand()%2+3)));
+			DisplayPortals(bluey,orangey);
 			DisplayPlayer(xp,yp);
 			xport--;
 				if(i>((xplayer)*(0.25))){
@@ -188,3 +188,4 @@ void PortalMovement(int&orangey, int&bluey){ //useless function now, predecesor 
 		bluey = rand()%150+10;
 	}
 }
+
