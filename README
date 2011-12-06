@@ -6,10 +6,13 @@ BUGS:
 	When moving through portal, if you shoot a portal the loop sometimes runs twice causing a very extended
 	period of not moving.
 
-	Both portals disappear momentarily whilst one is being fired.
+	Player appears on the left hand side of the screen if they go
+	off the right hand side of the screen.
 
 FIXES:
 	Player can now move whilst the portal is being fired.
+
+	Both portals momentarily disappear when a portal is being fired.
 
 
 CONTROLS:
