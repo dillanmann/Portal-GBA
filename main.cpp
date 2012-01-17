@@ -87,13 +87,13 @@ void DisplayPlayer(int&xp, int&yp){ // Works out player location based on button
 		yp++;
 		
 	// movement outwith screen size prevention
-	if (xp>=SCREEN_WIDTH)
+	if (xp>=239)
 		xp=239;
-	else if (xp<0)
+	else if (xp<=0)
 		xp=0;
-	if (yp>SCREEN_HEIGHT)
+	if (yp>=SCREEN_HEIGHT)
 		yp=159;
-	else if (yp<0)
+	else if (yp<=0)
 		yp=0;
 		
 	PlotPixel8(xp,yp,10);
@@ -194,4 +194,3 @@ void PortalMovement(int&orangey, int&bluey){ //useless function now, predecesor 
 		bluey = rand()%150+10;
 	}
 }
-
