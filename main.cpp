@@ -1,3 +1,9 @@
+//VERSION 0.3
+//Author: Dillan Mann
+//This program is a representation of the game Portal by Valve,
+//created on the GBA using a cross-compilation of C++ onto Visual
+//Boy Advance.
+
 //================
 //    HEADERS
 //================
@@ -81,7 +87,7 @@ void DisplayPlayer(int&xp, int&yp){ // Works out player location based on button
 		yp++;
 		
 	// movement outwith screen size prevention
-	if (xp>SCREEN_WIDTH)
+	if (xp>=SCREEN_WIDTH)
 		xp=239;
 	else if (xp<0)
 		xp=0;
